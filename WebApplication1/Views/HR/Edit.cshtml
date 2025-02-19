@@ -1,0 +1,13 @@
+﻿@model Department
+@{
+    ViewData["Title"] = "Edit Department";
+}
+
+<form asp-action="Edit" method="post">
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input type="text" class="form-control mt-3" asp-for="Name">
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+</form>
