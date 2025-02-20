@@ -17,7 +17,7 @@ namespace WebApplication1.Services
         public async Task DeleteEmployeeAsync(string id)
         {
             ApplicationUser Employee= await GetEmployeeByIdAsync(id);
-            _context.Employees.Remove(Employee);
+            Employee.isDeleted = true;
             await _context.SaveChangesAsync();
         }
 
@@ -26,11 +26,22 @@ namespace WebApplication1.Services
         
 
         public async Task<IList<ApplicationUser>> GetEmployeeListAsync()
-        => await _context.Employees.ToListAsync();
+        => await _context.Employees.Where(E=>!E.isDeleted).ToListAsync();
 
         public async Task UpdateEmployeeAsync(ApplicationUser entity)
         {
-            _context.Employees.Update(entity);
+            var SelectedEmplo = await GetEmployeeByIdAsync(entity.Id);
+            SelectedEmplo.FullName = entity.FullName;
+            SelectedEmplo.BirthDate = entity.BirthDate;
+            SelectedEmplo.PhoneNumber = entity.PhoneNumber;
+            SelectedEmplo.Address = entity.Address;
+            SelectedEmplo.DepartmentID = entity.DepartmentID;
+            SelectedEmplo.Nationality = entity.Nationality;
+            SelectedEmplo.SSN = entity.SSN;
+            SelectedEmplo.TimeIn = entity.TimeIn;
+            SelectedEmplo.TimeOut = entity.TimeOut;
+            SelectedEmplo.Salary = entity.Salary;
+            
             await _context.SaveChangesAsync();
         }
     }
