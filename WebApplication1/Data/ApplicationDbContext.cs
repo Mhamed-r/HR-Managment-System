@@ -13,7 +13,8 @@ namespace WebApplication1.Data
         public DbSet<Department> Departments { get; set; }
         public DbSet<Attendance> Attendances { get; set; }
         public DbSet<ApplicationUser> Employees { get; set; }
-
+        public DbSet<GeneralSettings> GeneralSettings { get; set; }
+        public DbSet<PublicHoliday> publicHolidays { get; set; }
 
     }
 }

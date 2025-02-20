@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication1.Data;
 
@@ -11,9 +12,11 @@ using WebApplication1.Data;
 namespace WebApplication1.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250220083224_v0")]
+    partial class v0
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -280,53 +283,6 @@ namespace WebApplication1.Data.Migrations
                     b.ToTable("Departments");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.GeneralSettings", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("DeductionRatePerHour")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("OvertimeRatePerHour")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("WeeklyHolidays")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("GeneralSettings");
-                });
-
-            modelBuilder.Entity("WebApplication1.Models.PublicHoliday", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateOnly>("Date")
-                        .HasColumnType("date");
-
-                    b.Property<int?>("GeneralSettingsId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GeneralSettingsId");
-
-                    b.ToTable("publicHolidays");
-                });
-
             modelBuilder.Entity("WebApplication1.Models.ApplicationUser", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
@@ -438,13 +394,6 @@ namespace WebApplication1.Data.Migrations
                     b.Navigation("Employee");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.PublicHoliday", b =>
-                {
-                    b.HasOne("WebApplication1.Models.GeneralSettings", null)
-                        .WithMany("PublicHolidays")
-                        .HasForeignKey("GeneralSettingsId");
-                });
-
             modelBuilder.Entity("WebApplication1.Models.ApplicationUser", b =>
                 {
                     b.HasOne("WebApplication1.Models.Department", "Department")
@@ -459,11 +408,6 @@ namespace WebApplication1.Data.Migrations
             modelBuilder.Entity("WebApplication1.Models.Department", b =>
                 {
                     b.Navigation("Employees");
-                });
-
-            modelBuilder.Entity("WebApplication1.Models.GeneralSettings", b =>
-                {
-                    b.Navigation("PublicHolidays");
                 });
 #pragma warning restore 612, 618
         }
