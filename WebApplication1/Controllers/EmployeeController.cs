@@ -11,6 +11,7 @@ namespace WebApplication1.Controllers
        private readonly EmployeeService _employeeService= _employeeService;
         private readonly IDepartmentService _departmentService= _departmentService;
 
+
         public async Task<IActionResult> Index()
         {
             var identityClaims = (ClaimsIdentity)User.Identity;
@@ -45,22 +46,25 @@ namespace WebApplication1.Controllers
             }).ToList();
             return View(Employee);
         }
-        public async Task<IActionResult> GetById(string id)
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id)
         {
             var Branchs = await _departmentService.GetDepartmentListAsync();
 
             ViewData["Branchs"] = new SelectList(Branchs, "ID", "Name", Branchs.Select(I => I.Name));
 
 
-            return View("Create", await _employeeService.GetEmployeeByIdAsync(id));
+            return View("Edit", await _employeeService.GetEmployeeByIdAsync(id));
         }
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Edit(ApplicationUser Employee) {
-            if (ModelState.IsValid) { 
-           await _employeeService.UpdateEmployeeAsync(Employee);
+        public async Task<IActionResult> Edit(ApplicationUser Employee)
+        {
+            if (ModelState.IsValid)
+            {
+                await _employeeService.UpdateEmployeeAsync(Employee);
                 return RedirectToAction(nameof(Index));
             }
             var Branchs = await _departmentService.GetDepartmentListAsync();
@@ -69,5 +73,14 @@ namespace WebApplication1.Controllers
             return View(Employee);
 
         }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(string id)
+        {
+            await _employeeService.DeleteEmployeeAsync(id);
+            return RedirectToAction(nameof(Index));
+        }
+
+
     }
 }

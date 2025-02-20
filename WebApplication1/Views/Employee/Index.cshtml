@@ -16,17 +16,19 @@
             <tr>
                 <td>@item.FullName</td>
                 <td>
-                    <a href="/Employee/GetById/@item.Id" class="btn btn-outline-info"><i class="fa-regular fa-square-check"></i></a>
+                    <a href="/Employee/Edit/@item.Id" class="btn btn-outline-info"><i class="fa-regular fa-square-check"></i></a>
                   
+
                 </td>
             </tr>
         }
     </tbody>
 </table>
-<script src="~/sweetalert2/sweetalert2.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
     function areYouSure(id) {
+        
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -38,15 +40,15 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: "/hr/Delete/" + id,
-                    type: "DELETE", // Ensure correct HTTP method
+                    url: "/Employee/Delete/" + id,
+                    type: "DELETE",
                     success: function() {
                         Swal.fire({
                             title: "Deleted!",
                             text: "Your file has been deleted.",
                             icon: "success"
                         }).then(() => {
-                            location.reload(); // Reload the page after the SweetAlert closes
+                            location.reload();
                         });
                     },
                     error: function(xhr, status, error) {
