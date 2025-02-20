@@ -7,7 +7,7 @@ namespace HR.Management.Helpers
     {
         public AutoMapperConfigurations()
         {
-            CreateMap<ApplicationUser, ApplicationUser> ().ReverseMap();
+  
         }
     }
 }

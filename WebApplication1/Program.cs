@@ -53,6 +53,7 @@ namespace WebApplication1
                 name: "default",
                 pattern: "{controller=HR}/{action=Index}/{id?}")
                 .WithStaticAssets();
+
             app.MapRazorPages()
                .WithStaticAssets();
 

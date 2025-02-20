@@ -110,14 +110,58 @@
         </div>
         <div class="text-center mt-3">
             <button type="submit" class="btn btn-warning">Edit</button>
-            
+            <a href="#" onclick="areYouSure('@Model.Id')" class="btn btn-danger">Delete</a>
+
         </div>
     </form>
-    <a href="/Employee/Delete/@Model.Id" class="btn btn-danger">Delete</a>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
-        
+
+      $(document).ready(function() {
+        $('a[data-method="delete"]').on('click', function(e) {
+            e.preventDefault();
+            var id = $(this).attr('data-id');
+            areYouSure(id);
+        });
+    });
+
+    function areYouSure(id) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/Employee/Delete/" + id,
+                    type: "DELETE",
+                    success: function() {
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "Your file has been deleted.",
+                            icon: "success"
+                        }).then(() => {
+                            location.href="/Employee/Index";
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("AJAX request failed:", status, error);
+                        Swal.fire({
+                            title: "Error!",
+                            text: "There was an error deleting your file.",
+                            icon: "error"
+                        });
+                    }
+                });
+            }
+        });
+    }
+
 
 </script>

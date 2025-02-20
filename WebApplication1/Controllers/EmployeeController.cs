@@ -11,6 +11,7 @@ namespace WebApplication1.Controllers
        private readonly EmployeeService _employeeService= _employeeService;
         private readonly IDepartmentService _departmentService= _departmentService;
 
+
         public async Task<IActionResult> Index()
         {
             var identityClaims = (ClaimsIdentity)User.Identity;
@@ -72,11 +73,14 @@ namespace WebApplication1.Controllers
             return View(Employee);
 
         }
-        [HttpPost]
+
+        [HttpDelete]
         public async Task<IActionResult> Delete(string id)
         {
-                await _employeeService.DeleteEmployeeAsync(id);
-                return RedirectToAction(nameof(Index));
+            await _employeeService.DeleteEmployeeAsync(id);
+            return RedirectToAction(nameof(Index));
         }
+
+
     }
 }
