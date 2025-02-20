@@ -1,0 +1,52 @@
+﻿@model List<PublicHoliday>
+
+    <div class="container mt-4 bg-light">
+        <div class="card">
+            <div class="card-header text-center fw-bold">Official Holidays</div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Date</label>
+                        <input type="date" id="holidayDate" class="form-control" placeholder="Select a date">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Name</label>
+                        <input type="text" id="holidayName" class="form-control" placeholder="Enter holiday name">
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        <button class="btn btn-success w-100" onclick="addHoliday()">Add</button>
+                    </div>
+                </div>
+
+                <table class="table table-bordered text-center">
+                    <thead class="table-secondary">
+                        <tr>
+                            <th>Operations</th>
+                            <th>Date</th>
+                            <th>Name</th>
+                        </tr>
+                    </thead>
+                    <tbody id="holidayTable">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary"><i class="fa-regular fa-pen-to-square"></i></button>
+                                <button class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-trash"></i></button>
+                            </td>
+                            <td>
+                                @item.Date <span>@item.Date.ToString("dddd")</span>
+                            </td>
+                            <td>
+                                @item.Name
+                            </td>
+                        </tr>
+                    }
+                           
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+

@@ -23,6 +23,7 @@ namespace WebApplication1
             builder.Services.AddRazorPages();
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
             builder.Services.AddScoped<IGeneralSettingsService, GeneralSettingsService>();
+            builder.Services.AddScoped<IpublicHolidays, PublicHolidays>();
             builder.Services.AddScoped<EmployeeService>();
             builder.Services.AddScoped<IPasswordHasher<ApplicationUser>, PasswordHasher<ApplicationUser>>();
 
