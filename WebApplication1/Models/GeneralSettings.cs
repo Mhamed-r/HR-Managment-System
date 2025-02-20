@@ -11,7 +11,8 @@ namespace WebApplication1.Models
 
         public decimal DeductionRatePerHour { get; set; } 
 
-        public WeekDays WeeklyHolidays { get; set; } 
+        public WeekDays WeeklyHolidays1 { get; set; } 
+        public WeekDays WeeklyHolidays2 { get; set; } 
 
 
         virtual public ICollection<PublicHoliday>? PublicHolidays { get; set; }
