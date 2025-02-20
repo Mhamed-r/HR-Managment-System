@@ -16,7 +16,6 @@ namespace WebApplication1.Controllers
             var identityClaims = (ClaimsIdentity)User.Identity;
             var claims = identityClaims.FindFirst(ClaimTypes.NameIdentifier);
             var userID = claims.Value;
-            //return View(await _employeeService.GetEmployeeListAsync());
             return View((await _employeeService.GetEmployeeListAsync()).Where(e => e.Id != userID).ToList());
         }
         [HttpGet]
@@ -29,8 +28,9 @@ namespace WebApplication1.Controllers
             }).ToList();
             return View(model: new ApplicationUser());
         }
+      
         [HttpPost]
-
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ApplicationUser Employee)
         {
             if (ModelState.IsValid) {
@@ -44,6 +44,30 @@ namespace WebApplication1.Controllers
                 Text = b.Name
             }).ToList();
             return View(Employee);
+        }
+        public async Task<IActionResult> GetById(string id)
+        {
+            var Branchs = await _departmentService.GetDepartmentListAsync();
+
+            ViewData["Branchs"] = new SelectList(Branchs, "ID", "Name", Branchs.Select(I => I.Name));
+
+
+            return View("Create", await _employeeService.GetEmployeeByIdAsync(id));
+        }
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+
+        public async Task<IActionResult> Edit(ApplicationUser Employee) {
+            if (ModelState.IsValid) { 
+           await _employeeService.UpdateEmployeeAsync(Employee);
+                return RedirectToAction(nameof(Index));
+            }
+            var Branchs = await _departmentService.GetDepartmentListAsync();
+            ViewData["Branchs"] = new SelectList(Branchs, "ID", "Name", Branchs.Select(I => I.Name));
+
+            return View(Employee);
+
         }
     }
 }
