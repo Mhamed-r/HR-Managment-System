@@ -1,5 +1,6 @@
 ﻿@model List<PublicHoliday>
 
+
 <style>
     .border {
         border: 1px solid #ddd;
@@ -20,7 +21,7 @@
         <div class="card">
             <div class="card-header text-center fw-bold">Official Holidays</div>
             <div class="card-body">
-
+                <div>
                 <div class="row mb-3">
                     <div class="col-md-4">
                         <label class="form-label">Date</label>
@@ -35,7 +36,7 @@
                     <a href="#" onclick="addHoliday()" class="btn btn-success w-100">Add</a>
                     </div>
                 </div>
-
+            </div>
                 <table class="table table-bordered text-center">
                     <thead class="table-secondary">
                         <tr>
@@ -44,41 +45,68 @@
                             <th>Name</th>
                         </tr>
                     </thead>
-                    <tbody id="holidayTable">
+                <tbody id="holidayTable">
                     @foreach (var item in Model)
                     {
-                        <tr>
+                        <tr id="row-@item.Id">
                             <td>
-                                <button class="btn btn-sm btn-outline-primary"><i class="fa-regular fa-pen-to-square"></i></button>
+                                <button class="btn btn-sm btn-outline-primary" onclick="editHoliday('@item.Id')">
+                                    <i class="fa-regular fa-pen-to-square"></i> Edit
+                                </button>
                                 <a href="#" onclick="areYouSure('@item.Id')" class="btn btn-danger">Delete</a>
                             </td>
-                            <td>
+                            <td id="date-@item.Id">
                                 @item.Date <span>@item.Date.ToString("dddd")</span>
                             </td>
-                            <td>
+                            <td id="name-@item.Id">
                                 @item.Name
                             </td>
                         </tr>
                     }
-                           
-                    </tbody>
+                </tbody>
+
                 </table>
             </div>
         </div>
     </div>
 
+<div class="modal fade" id="editHolidayModal" tabindex="-1" aria-labelledby="editHolidayLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editHolidayLabel">Edit Public Holiday</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="editHolidayId">
+                <div class="mb-3">
+                    <label class="form-label">Date</label>
+                    <input type="date" id="editHolidayDate" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Name</label>
+                    <input type="text" id="editHolidayName" class="form-control">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="updateHoliday()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
-    $.ajaxSetup({
-        headers: {
-            'RequestVerificationToken': $('input:hidden[name="__RequestVerificationToken"]').val()
-        }
-    });
-        function addHoliday() {
+       function addHoliday() {
         var date = $("#holidayDate").val();
         var name = $("#holidayName").val();
+        var token = $('input[name="__RequestVerificationToken"]').val(); 
 
         if (!date || !name) {
             Swal.fire({
@@ -92,8 +120,7 @@
         var newHoliday = {
             Date: date,
             Name: name,
-            GeneralSettingsId:1
-
+            GeneralSettingsId: 1
         };
 
         $.ajax({
@@ -101,6 +128,9 @@
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify(newHoliday),
+            headers: {
+                "RequestVerificationToken": token
+            },
             success: function(response) {
                 Swal.fire({
                     title: "Added!",
@@ -109,7 +139,9 @@
                 }).then(() => {
                     var newRow = `<tr>
                         <td>
-                            <button class="btn btn-sm btn-outline-primary"><i class="fa-regular fa-pen-to-square"></i></button>
+                           <button class="btn btn-sm btn-outline-primary" onclick="editHoliday('${response.id}')">
+                                    <i class="fa-regular fa-pen-to-square"></i> Edit
+                                </button>
                             <a href="#" onclick="areYouSure('${response.id}')" class="btn btn-danger">Delete</a>
                         </td>
                         <td>
@@ -135,10 +167,63 @@
         });
     }
 
+        function editHoliday(id) {
+        $.ajax({
+            url: "/OfficialHolidays/GetHoliday/" + id,
+            type: "GET",
+            success: function(response) {
+                $("#editHolidayId").val(response.id);
+                $("#editHolidayDate").val(response.date);
+                $("#editHolidayName").val(response.name);
+
+                $("#editHolidayModal").modal("show");
+            },
+            error: function(xhr, status, error) {
+                console.error("Failed to fetch holiday data:", status, error);
+                Swal.fire("Error!", "Failed to fetch holiday data.", "error");
+            }
+        });
+    }
+            function updateHoliday() {
+        var id = $("#editHolidayId").val();
+        var date = $("#editHolidayDate").val();
+        var name = $("#editHolidayName").val();
+
+        if (!date || !name) {
+            Swal.fire("Error!", "Please provide both date and name.", "error");
+            return;
+        }
+
+        var updatedHoliday = {
+            Id: id,
+            Date: date,
+            Name: name
+        };
+
+        $.ajax({
+            url: "/OfficialHolidays/Edit",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(updatedHoliday),
+            success: function(response) {
+                Swal.fire("Success!", "Holiday updated successfully.", "success").then(() => {
+                    // تحديث البيانات في الجدول مباشرة
+                    $("#date-" + id).html(response.date + " <span>" + new Date(response.date).toLocaleString('en-US', { weekday: 'long' }) + "</span>");
+                    $("#name-" + id).text(response.name);
+
+                    // إغلاق المودال
+                    $("#editHolidayModal").modal("hide");
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error("Update failed:", status, error);
+                Swal.fire("Error!", "There was an error updating the holiday.", "error");
+            }
+        });
+    }
 
 
-    function areYouSure(id) {
-        console.log("Delete ID: ", id);
+           function areYouSure(id) {
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -153,27 +238,19 @@
                     url: "/OfficialHolidays/Delete/" + id,
                     type: "DELETE",
                     success: function(response) {
-                        console.log("Response: ", response);
-                        Swal.fire({
-                            title: "Deleted!",
-                            text: "Your file has been deleted.",
-                            icon: "success"
-                        }).then(() => {
-                            location.href="/OfficialHolidays/Index";
+                        Swal.fire("Deleted!", "Holiday has been deleted.", "success").then(() => {
+                            $("#row-" + id).remove(); // حذف الصف مباشرة
                         });
                     },
                     error: function(xhr, status, error) {
                         console.error("AJAX request failed:", status, error);
-                        Swal.fire({
-                            title: "Error!",
-                            text: "There was an error deleting your file.",
-                            icon: "error"
-                        });
+                        Swal.fire("Error!", "There was an error deleting the holiday.", "error");
                     }
                 });
             }
         });
     }
+
 
 
 </script>

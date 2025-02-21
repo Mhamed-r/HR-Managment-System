@@ -27,6 +27,21 @@ namespace HR.ManagmentSystem.Controllers
             return Ok(publicHoliday);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetHoliday(int id)
+        {
+            var holiday = await _IpublicHolidays.GetPublicHolidayByIDAsync(id);
+            if (holiday == null)
+            {
+                return NotFound();
+            }
+            return Ok(holiday);
+        }
+        public async Task<IActionResult> Edit(PublicHoliday publicHoliday)
+        {
+            await _IpublicHolidays.UpdatePublicHolidaysAsync(publicHoliday); 
+            return Ok(publicHoliday);
+        }
 
 
 
@@ -34,7 +49,7 @@ namespace HR.ManagmentSystem.Controllers
         public async Task<IActionResult> Delete(int id)
         {
                await _IpublicHolidays.DeletePublicHolidayAsync(id);
-                return RedirectToAction(nameof(Index));       
+            return Ok(new { message = "Holiday deleted successfully" });
         }
     }
 }
