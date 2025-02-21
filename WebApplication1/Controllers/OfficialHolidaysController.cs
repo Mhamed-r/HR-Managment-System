@@ -22,6 +22,5 @@ namespace HR.ManagmentSystem.Controllers
             await _IpublicHolidays.AddPublicHolidaysAsync(model);
             return RedirectToAction(nameof(Index));
         }
-
     }
 }
