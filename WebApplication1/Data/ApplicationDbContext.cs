@@ -16,5 +16,14 @@ namespace WebApplication1.Data
         public DbSet<GeneralSettings> GeneralSettings { get; set; }
         public DbSet<PublicHoliday> publicHolidays { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<GeneralSettings>()
+                .HasMany(g => g.PublicHolidays)
+                .WithOne(p => p.GeneralSettings)
+                .HasForeignKey(p => p.GeneralSettingsId)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
     }
 }

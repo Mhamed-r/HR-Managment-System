@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebApplication1.Models
 {
@@ -9,6 +10,11 @@ namespace WebApplication1.Models
         [Required]
         public string Name { get; set; } =string.Empty;
         public DateOnly Date { get; set; }
+
+        [ForeignKey(nameof(GeneralSettings))]
+        public int GeneralSettingsId { get; set; }
+        virtual public GeneralSettings GeneralSettings { get; set; }
+
 
     }
 }

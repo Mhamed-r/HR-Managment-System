@@ -8,15 +8,33 @@ namespace HR.ManagmentSystem.Services
     {
         private readonly ApplicationDbContext _context = context ;
 
-        public async Task AddPublicHolidaysAsync(PublicHoliday publicholiday)
-        {
-            await _context.publicHolidays.AddAsync(publicholiday);
-            await _context.SaveChangesAsync();
-        }
+        public async Task<PublicHoliday> GetPublicHolidayByIDAsync(int id)
+         => await _context.publicHolidays.FindAsync(id);
 
-        public async Task<List<PublicHoliday>> GetPublicHoliday()
+        public async Task<IList<PublicHoliday>> GetPublicHoliday()
         {
            return await _context.publicHolidays.ToListAsync();
+        }
+
+        public async Task AddPublicHolidaysAsync(PublicHoliday publicholiday)
+        {
+            var geniralsetting = _context.GeneralSettings.FirstOrDefault().Id;
+
+            PublicHoliday model = new PublicHoliday();
+            model.Id = publicholiday.Id;
+            model.Name = publicholiday.Name;
+            model.Date = publicholiday.Date;
+            model.GeneralSettingsId = geniralsetting;
+           
+
+            await _context.publicHolidays.AddAsync(model);
+            await _context.SaveChangesAsync();
+        }
+   
+        public async Task DeletePublicHolidayAsync(int id)
+        {
+            _context.publicHolidays.Remove((await GetPublicHolidayByIDAsync(id)));
+            await _context.SaveChangesAsync();
         }
 
         public async Task UpdatePublicHolidaysAsync(PublicHoliday publicholiday)

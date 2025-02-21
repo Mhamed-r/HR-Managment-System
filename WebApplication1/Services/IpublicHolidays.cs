@@ -6,6 +6,8 @@ namespace HR.ManagmentSystem.Services
     {
         Task AddPublicHolidaysAsync(PublicHoliday publicholiday);
         Task UpdatePublicHolidaysAsync(PublicHoliday publicholiday);
-        Task<List<PublicHoliday>> GetPublicHoliday();
+        Task<IList<PublicHoliday>> GetPublicHoliday();
+        Task<PublicHoliday> GetPublicHolidayByIDAsync(int id);
+        Task DeletePublicHolidayAsync(int id);
     }
 }

@@ -1,5 +1,7 @@
 ﻿using HR.ManagmentSystem.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using WebApplication1.Models;
 
 namespace HR.ManagmentSystem.Controllers
@@ -13,14 +15,27 @@ namespace HR.ManagmentSystem.Controllers
             return View(await _IpublicHolidays.GetPublicHoliday());
         }
 
-        public async Task<IActionResult> Create(PublicHoliday model)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddPublicHoliday([FromBody] PublicHoliday publicHoliday)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-            await _IpublicHolidays.AddPublicHolidaysAsync(model);
-            return RedirectToAction(nameof(Index));
+            //if (!ModelState.IsValid || publicHoliday == null )
+            //{
+            //    return View(publicHoliday);
+            //}
+            await _IpublicHolidays.AddPublicHolidaysAsync(publicHoliday);
+            return Ok(publicHoliday);
+        }
+
+
+
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int id)
+        {
+               await _IpublicHolidays.DeletePublicHolidayAsync(id);
+                return RedirectToAction(nameof(Index));       
         }
     }
 }
+
