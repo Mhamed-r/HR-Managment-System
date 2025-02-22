@@ -250,10 +250,10 @@ namespace WebApplication1.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<TimeOnly?>("TimeIn")
+                    b.Property<TimeOnly>("TimeIn")
                         .HasColumnType("time");
 
-                    b.Property<TimeOnly?>("TimeOut")
+                    b.Property<TimeOnly>("TimeOut")
                         .HasColumnType("time");
 
                     b.HasKey("ID");

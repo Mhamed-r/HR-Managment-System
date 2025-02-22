@@ -10,8 +10,8 @@ namespace WebApplication1.Models
         public string EmployeeID { get; set; } = string.Empty;
         virtual public ApplicationUser Employee { get; set; } = default!;
         public DateOnly Date { get; set; }
-        public TimeOnly? TimeIn { get; set; }
-        public TimeOnly? TimeOut { get; set; }
+        public TimeOnly TimeIn { get; set; }
+        public TimeOnly TimeOut { get; set; }
         public AttendanceStatus AttendanceStatus { get; set; }
     }
 }

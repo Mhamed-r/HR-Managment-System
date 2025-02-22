@@ -26,7 +26,6 @@ namespace WebApplication1
             builder.Services.AddScoped<IpublicHolidays, PublicHolidays>();
             builder.Services.AddScoped<EmployeeService>();
             builder.Services.AddScoped<IPasswordHasher<ApplicationUser>, PasswordHasher<ApplicationUser>>();
-            builder.Services.AddScoped<IAttendanceService, AttendanceService>();
 
             builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>()
