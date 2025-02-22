@@ -1,0 +1,26 @@
+﻿@model WebApplication1.Models.Attendance
+
+@{
+    ViewData["Title"] = "Edit Attendance Record";
+}
+
+<h2>Edit Attendance Record</h2>
+
+<form method="post">
+    <input type="hidden" name="id" value="@Model.ID" />
+
+    <label>Employee Name:</label>
+    <input type="text" class="form-control" value="@Model.Employee.FullName" disabled />
+
+    <label>Date:</label>
+    <input type="text" class="form-control" value="@Model.Date.ToShortDateString()" disabled />
+
+    <label>Check-in Time:</label>
+    <input type="time" name="timeIn" class="form-control" value="@(Model.TimeIn.HasValue ? Model.TimeIn.Value.ToString("HH:mm") : "")" required />
+
+    <label>Check-out Time:</label>
+    <input type="time" name="timeOut" class="form-control" value="@(Model.TimeOut.HasValue ? Model.TimeOut.Value.ToString("HH:mm") : "")" />
+
+    <button type="submit" class="btn btn-primary mt-2">Save Changes</button>
+    <a asp-action="CheckInOut" class="btn btn-secondary mt-2">Cancel</a>
+</form>
