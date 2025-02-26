@@ -1,0 +1,166 @@
+﻿@model List<HR.ManagmentSystem.ViewModels.AttendReportViewModel>
+
+<h2 class="text-center">Attendance Report</h2>
+
+<form method="get" action="@Url.Action("Report", "Attendance")" class="mb-3">
+    <div class="row">
+        <a asp-controller="Attendance" asp-action="CheckInOut" class="btn btn-primary mb-2 col-md-3 d-flex justify-content-center gap-2">Check In/Out</a>
+        <div class="d-flex justify-content-end gap-2 ">
+            <a href="@Url.Action("ExportToExcel", "Attendance")" class="btn btn-success">📥 Excel</a>
+            <a href="@Url.Action("ExportToPDF", "Attendance")" class="btn btn-danger">📄 PDF</a>
+            <button class="btn btn-dark" onclick="window.print()">🖨️ Print</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 mt-4">
+            <input type="text" name="searchQuery" id="searchQuery" class="form-control" placeholder="🔍 Search by employee name or department..." value="@Context.Request.Query["searchQuery"]">
+        </div>
+        <div class="col-md-3">
+            <label for="startDate">Start</label>
+            <input type="date" name="startDate" id="startDate" class="form-control" placeholder="Start Date" value="@Context.Request.Query["startDate"]">
+        </div>
+        <div class="col-md-3">
+            <label for="endDate">End</label>
+            <input type="date" name="endDate" id="endDate" class="form-control" placeholder="End Date" value="@Context.Request.Query["endDate"]">
+        </div>
+        <div class="col-md-3 mt-4">
+            <button type="submit" class="btn btn-primary">🔍 Filter</button>
+            <a href="@Url.Action("Report", "Attendance")" class="btn btn-secondary">🔄 Reset</a>
+        </div>
+    </div>
+</form>
+
+<table id="attendanceTable" class="table table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th class="text-center">#</th>
+            <th class="text-center">Employee Name</th>
+            <th class="text-center">Department</th>
+            <th class="text-center">Date</th>
+            <th class="text-center">Check-In</th>
+            <th class="text-center">Check-Out</th>
+            <th class="text-center">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+                <tr>
+                    <td class="text-center">@item.ID</td>
+                    <td class="text-center">@item.FullName</td>
+                    <td class="text-center">@item.DepartmentName</td>
+                    <td class="text-center">@item.Date.ToShortDateString(): @item.Date.ToString("dddd", new System.Globalization.CultureInfo("en-US"))</td>
+                    <td class="text-center">@item.TimeIn</td>
+                    <td class="text-center">@item.TimeOut</td>
+                    <td class="text-center">
+                        <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-sm btn-warning">✏️ Edit</a>
+                        <form method="post" asp-action="Delete" asp-route-id="@item.ID" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this record?');">
+                            <button type="submit" class="btn btn-sm btn-danger">🗑️ Delete</button>
+                        </form>
+                    </td>
+                </tr>
+        }
+    </tbody>
+</table>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#attendanceTable').DataTable({
+            "paging": true,
+            "pageLength": 10,
+            "lengthMenu": [10, 25, 50, 100],
+            "ordering": true,
+            "searching": false,
+            "info": true,
+            "language": {
+                "lengthMenu": "Show _MENU_ records per page",
+                "zeroRecords": "No records found",
+                "info": "Showing page _PAGE_ of _PAGES_",
+                "infoEmpty": "No records available",
+                "infoFiltered": "(filtered from _MAX_ total records)",
+                "search": "🔍 Search:",
+                "paginate": {
+                    "first": "First",
+                    "last": "Last",
+                    "next": "Next",
+                    "previous": "Previous"
+                }
+            }
+        });
+    });
+</script>
+
+<script>
+    document.getElementById("searchQuery").addEventListener("keyup", function () {
+        filterTable();
+    });
+
+    function filterTable() {
+        let input = document.getElementById("searchQuery").value.toLowerCase();
+        let rows = document.querySelectorAll("tbody tr");
+
+        rows.forEach(row => {
+            let name = row.cells[1].textContent.toLowerCase();
+            let department = row.cells[2].textContent.toLowerCase();
+
+            if (name.includes(input) || department.includes(input)) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        });
+    }
+</script>
+
+
+<script>
+
+        $(document).ready(function() {
+        // عند الضغط على زر الحذف
+        $('.delete-attendance').on('click', function() {
+            var id = $(this).data('id'); // الحصول على ID السجل
+            areYouSure(id);
+        });
+    });
+
+      function areYouSure(id) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "This action cannot be undone!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/Attendance/Delete/" + id,
+                    type: "DELETE",
+                    success: function(response) {
+                        Swal.fire({
+                            title: response.success ? "Deleted!" : "Error!",
+                            text: response.message,
+                            icon: response.success ? "success" : "error"
+                        }).then(() => {
+                            if (response.success) location.reload();
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire({
+                            title: "Error!",
+                            text: "There was an error deleting the record.",
+                            icon: "error"
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+
+</script>
