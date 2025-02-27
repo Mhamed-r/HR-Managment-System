@@ -10,8 +10,8 @@
         public decimal BasicSalary { get; set; }
         public int PresentDays { get; set; }
         public int AbsentDays { get; set; }
-        public double OvertimeHours { get; set; }
-        public double DeductionHours { get; set; }
+        public decimal OvertimeHours { get; set; }
+        public decimal DeductionHours { get; set; }
         public decimal TotalOvertimePay { get; set; }
         public decimal TotalDeduction { get; set; }
         public decimal NetSalary { get; set; }

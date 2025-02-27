@@ -33,11 +33,11 @@
             <a asp-area="" asp-controller="HR" asp-action="Index" class="nav-link p-3"><i class="icon fa-solid fa-bars-progress"></i> Department</a>
                 <a asp-area="" asp-controller="Employee" asp-action="Index" class="nav-link p-3"><i class="icon fa-solid fa-user-tie"></i> Employee</a>
                 <a asp-area="" asp-controller="GeneralSettings" asp-action="Index" class="nav-link p-3"><i class="icon fa-solid fa-gears"></i> General Settings</a>
-                <a asp-area="" asp-controller="OfficialHolidays" asp-action="Index" class="nav-link p-3"><i class="icon fa-solid fa-calendar-days"></i> OfficialHolidays</a>
+                <a asp-area="" asp-controller="OfficialHolidays" asp-action="Index" class="nav-link p-3"><i class="icon fa-solid fa-calendar-days"></i> Official Holidays</a>
             <a asp-area="" asp-controller="Attendance" asp-action="Report" class="nav-link p-3"><i class="icon fa-solid fa-user-clock"></i> Attendance</a>
+            <a asp-area="" asp-controller="EmployeeSalary" asp-action="Index" class="nav-link p-3"><i class="fa-solid fa-dollar-sign"></i> Salary Reports</a>
                 <!-- Account Pages -->
-
-                <span class="nav-header mt-3">Account Pages</span>
+            <span class="nav-header mt-3">Account Pages</span>
             @if (SignInManager.IsSignedIn(User))
             {
 

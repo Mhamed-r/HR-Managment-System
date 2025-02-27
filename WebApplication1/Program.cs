@@ -1,3 +1,4 @@
+using HR.ManagmentSystem.Mapping;
 using HR.ManagmentSystem.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -31,6 +32,7 @@ namespace WebApplication1
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
+            builder.Services.AddAutoMapper(typeof(Mapperconfig));
             builder.Services.AddScoped < IEmailSender, EmailSender>();
             builder.Services.AddControllersWithViews();
             var app = builder.Build();

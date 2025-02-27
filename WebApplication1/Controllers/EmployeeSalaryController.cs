@@ -1,4 +1,5 @@
-﻿using HR.ManagmentSystem.Helpers;
+﻿using AutoMapper;
+using HR.ManagmentSystem.Helpers;
 using HR.ManagmentSystem.Services;
 using HR.ManagmentSystem.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -8,14 +9,15 @@ using WebApplication1.Services;
 namespace HR.ManagmentSystem.Controllers
 {
     public class EmployeeSalaryController(EmployeeService employeeService, IDepartmentService departmentService,
-        IGeneralSettingsService generalSettingsService, IpublicHolidays  publicHolidaysService, IAttendanceService attendanceService) : Controller
+        IGeneralSettingsService generalSettingsService, IpublicHolidays  publicHolidaysService, IAttendanceService attendanceService, IMapper mapper) : Controller
     {
+        private readonly IMapper _mapper=mapper;
 
-        private readonly EmployeeService _employeeService= employeeService;
-        private readonly IDepartmentService _departmentService= departmentService;
-        private readonly IGeneralSettingsService _generalSettingsService= generalSettingsService;
+        private readonly EmployeeService _employeeService = employeeService;
+        private readonly IDepartmentService _departmentService = departmentService;
+        private readonly IGeneralSettingsService _generalSettingsService = generalSettingsService;
         private readonly IpublicHolidays _publicHolidaysService = publicHolidaysService;
-        private readonly IAttendanceService _attendanceService= attendanceService;
+        private readonly IAttendanceService _attendanceService = attendanceService;
 
         public async Task<IActionResult> Index(string employeeId, int? month, int? year)
         {
@@ -28,7 +30,7 @@ namespace HR.ManagmentSystem.Controllers
                .ToList();
             int totalWorkingDays = WorkingDaysCalculate.CalculateWorkingDays(selectedYear, selectedMonth, generalSettings, publicHolidaysInMonth);
             var employees = await _employeeService.GetEmployeeListAsync();
-             var employee = employees.FirstOrDefault(e => e.Id == employeeId);
+            var employee = employees.FirstOrDefault(e => e.Id == employeeId);
             var reportData = new List<EmployeeSalaryViewModel>();
             var attendanceRecords = _attendanceService.GetAttendanceForEmployee(employeeId, selectedYear, selectedMonth);
             int totalPresentDays = attendanceRecords.Count();
@@ -51,14 +53,19 @@ namespace HR.ManagmentSystem.Controllers
 
             // Calculate Total Salary
             decimal TotalSalary = Salary + TotalOverHourSalary - TotalDeductionSalary - AbsantDaySalary;
+            //Map to ViewModel
+            EmployeeSalaryViewModel salaryViewModel = _mapper.Map<EmployeeSalaryViewModel>(employee);
+            
+            salaryViewModel.PresentDays = totalPresentDays;
+            salaryViewModel.AbsentDays = totalAbsentDays;
+            salaryViewModel.OvertimeHours = OverHour;
+            salaryViewModel.DeductionHours = DeductionHourRata;
+            salaryViewModel.TotalOvertimePay = TotalOverHourSalary;
+            salaryViewModel.TotalDeduction = TotalDeductionSalary;
+            salaryViewModel.NetSalary = TotalSalary;
 
-            TempData["TotalSalary"] = TotalSalary;
-            TempData["TotalDeductionSalary"] = TotalDeductionSalary;
-            TempData["OverHourRate"] = TotalOverHourSalary;
-            TempData["TotalAbsentDays"] = totalAbsentDays;
-            TempData["TotalPresentDays"] = totalPresentDays;
-            ViewData["Count"] = totalWorkingDays;
-            return View();
+           
+            return View(salaryViewModel);
         }
     }
 }
