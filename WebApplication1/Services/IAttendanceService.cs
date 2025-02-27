@@ -15,5 +15,6 @@ namespace HR.ManagmentSystem.Services
         Attendance GetAttendanceById(int id);
         void UpdateAttendance(Attendance attendance);
         string DeleteAttendance(int id);
+        List<Attendance> GetAttendanceForEmployee(string employeeId, int year, int month);
     }
 }

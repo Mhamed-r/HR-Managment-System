@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using WebApplication1.Helpers;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 
 namespace HR.ManagmentSystem.Services
 {
@@ -15,6 +16,18 @@ namespace HR.ManagmentSystem.Services
         public AttendanceService(ApplicationDbContext context)
         {
             _context = context;
+        }
+        public List<Attendance> GetAttendanceForEmployee(string employeeId, int year, int month)
+        {
+            DateOnly firstDay = new DateOnly(year, month, 1);
+            DateOnly lastDay = firstDay.AddMonths(1).AddDays(-1);
+
+            return _context.Attendances
+                .Where(a => a.EmployeeID == employeeId
+                    && a.Date >= firstDay
+                    && a.Date <= lastDay
+                    )
+                .ToList();
         }
 
         public List<Attendance> GetAllRecords()
@@ -73,6 +86,7 @@ namespace HR.ManagmentSystem.Services
         {
             var employee = _context.Users.OfType<ApplicationUser>()
                 .FirstOrDefault(e => e.Id == employeeId.ToString());
+            AttendanceStatus status = AttendanceStatus.Absent;
 
             if (employee == null)
             {
@@ -89,9 +103,21 @@ namespace HR.ManagmentSystem.Services
 
             if (inputTime > employee.TimeIn)
             {
-                return "You are late for the scheduled work time!";
-            }
 
+                attendance = new Attendance
+                {
+                    EmployeeID = employeeId.ToString(),
+                    Date = selectedDate,
+                    TimeIn = inputTime,
+                    TimeOut = null,
+                    AttendanceStatus = AttendanceStatus.Late
+                };
+                _context.Attendances.Add(attendance);
+                _context.SaveChanges();
+                return "You are late for the scheduled work time!";
+              
+            }
+      
             attendance = new Attendance
             {
                 EmployeeID = employeeId.ToString(),
