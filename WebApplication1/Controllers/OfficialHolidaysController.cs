@@ -37,11 +37,20 @@ namespace HR.ManagmentSystem.Controllers
             }
             return Ok(holiday);
         }
-        public async Task<IActionResult> Edit(PublicHoliday publicHoliday)
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit([FromBody] PublicHoliday publicHoliday)
         {
-            await _IpublicHolidays.UpdatePublicHolidaysAsync(publicHoliday); 
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest(ModelState);
+            //}
+
+            await _IpublicHolidays.UpdatePublicHolidaysAsync(publicHoliday);
             return Ok(publicHoliday);
         }
+
 
 
 
