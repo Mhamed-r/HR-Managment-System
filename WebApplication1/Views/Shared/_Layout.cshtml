@@ -3,66 +3,67 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - WebApplication1</title>
+    <title>@ViewData["Title"] - HR System</title>
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/style.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="~/WebApplication1.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/WebApplication1.styles.css" asp-append-version="true" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+          integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer" />
 
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WebApplication1</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="HR" asp-action="Index">HR</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="Index">Employee</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="GeneralSettings" asp-action="Index">Holiday</a>
-                        </li>
+        <div class="sidebar">
+            <nav class="d-flex flex-column gap-1">
+                <span class="nav-header text-center fs-4">Hr Mangement</span>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="OfficialHolidays" asp-action="Index">OfficialHolidays</a>
-                        </li>
-                      
-                    </ul>
-                    <partial name="_LoginPartial" />
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+                <hr />
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link p-3">
+                    <i class="icon fa-solid fa-gauge-high"></i> Dashboard
+                </a>
+            <a asp-area="" asp-controller="HR" asp-action="Index" class="nav-link p-3"><i class="icon fa-solid fa-bars-progress"></i> Department</a>
+                <a asp-area="" asp-controller="Employee" asp-action="Index" class="nav-link p-3"><i class="icon fa-solid fa-user-tie"></i> Employee</a>
+                <a asp-area="" asp-controller="GeneralSettings" asp-action="Index" class="nav-link p-3"><i class="icon fa-solid fa-gears"></i> General Settings</a>
+                <a asp-area="" asp-controller="OfficialHolidays" asp-action="Index" class="nav-link p-3"><i class="icon fa-solid fa-calendar-days"></i> OfficialHolidays</a>
+            <a asp-area="" asp-controller="Attendance" asp-action="Report" class="nav-link p-3"><i class="icon fa-solid fa-user-clock"></i> Attendance</a>
+                <!-- Account Pages -->
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - WebApplication1 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                <span class="nav-header mt-3">Account Pages</span>
+
+                <a href="#" class="nav-link p-3"><i class="icon fas fa-user-cog"></i> Profile</a>
+                <a href="#" class="nav-link p-3"><i class="icon fa-solid fa-right-to-bracket"></i> Log In</a>
+                <a href="#" class="nav-link p-3"><i class="fa-solid fa-power-off"></i> Log Out</a>
+            <partial name="_LoginPartial" />
+
+            </nav>
         </div>
-    </footer>
+    <div class="dashboard-content">
+        <div class="container-fluid mt-5">
+            <main role="main" class="pb-3">
+
+            @RenderBody()
+
+            </main>
+            <footer class="border-top footer text-muted position-absolute bottom-0 w-75">
+                <div class="container mt-2 mb-3">
+                    &copy; 2025 - HR System - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                </div>
+            </footer>
+            </div>
+      
+        </div>
+
+    
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/main.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
