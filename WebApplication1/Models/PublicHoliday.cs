@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace WebApplication1.Models
 {
@@ -13,6 +14,7 @@ namespace WebApplication1.Models
 
         [ForeignKey(nameof(GeneralSettings))]
         public int GeneralSettingsId { get; set; }
+        [JsonIgnore]
         virtual public GeneralSettings GeneralSettings { get; set; }
 
 

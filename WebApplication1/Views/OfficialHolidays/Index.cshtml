@@ -137,7 +137,7 @@
                     text: "Holiday has been added.",
                     icon: "success"
                 }).then(() => {
-                    var newRow = `<tr>
+                    var newRow = `<tr >
                         <td>
                            <button class="btn btn-sm btn-outline-primary" onclick="editHoliday('${response.id}')">
                                     <i class="fa-regular fa-pen-to-square"></i> Edit
@@ -184,10 +184,11 @@
             }
         });
     }
-            function updateHoliday() {
+               function updateHoliday() {
         var id = $("#editHolidayId").val();
         var date = $("#editHolidayDate").val();
         var name = $("#editHolidayName").val();
+        var token = $('input[name="__RequestVerificationToken"]').val(); 
 
         if (!date || !name) {
             Swal.fire("Error!", "Please provide both date and name.", "error");
@@ -197,7 +198,8 @@
         var updatedHoliday = {
             Id: id,
             Date: date,
-            Name: name
+            Name: name,
+           
         };
 
         $.ajax({
@@ -205,13 +207,13 @@
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify(updatedHoliday),
+            headers: {
+                "RequestVerificationToken": token 
+            },
             success: function(response) {
                 Swal.fire("Success!", "Holiday updated successfully.", "success").then(() => {
-                    // تحديث البيانات في الجدول مباشرة
                     $("#date-" + id).html(response.date + " <span>" + new Date(response.date).toLocaleString('en-US', { weekday: 'long' }) + "</span>");
                     $("#name-" + id).text(response.name);
-
-                    // إغلاق المودال
                     $("#editHolidayModal").modal("hide");
                 });
             },
@@ -239,7 +241,7 @@
                     type: "DELETE",
                     success: function(response) {
                         Swal.fire("Deleted!", "Holiday has been deleted.", "success").then(() => {
-                            $("#row-" + id).remove(); // حذف الصف مباشرة
+                            $("#row-" + id).remove(); 
                         });
                     },
                     error: function(xhr, status, error) {

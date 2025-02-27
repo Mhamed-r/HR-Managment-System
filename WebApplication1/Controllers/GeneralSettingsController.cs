@@ -10,21 +10,21 @@ namespace HR.ManagmentSystem.Controllers
     {
         private readonly IGeneralSettingsService _generalSettingsService = generalSettingsService;
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _generalSettingsService.GetGeneralSettings());
         }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(GeneralSettings generalSettings)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(generalSettings);
-            }
-            await _generalSettingsService.AddGeneralSettingAsync(generalSettings);
-            return RedirectToAction(nameof(Index));
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create(GeneralSettings generalSettings)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(generalSettings);
+        //    }
+        //    await _generalSettingsService.AddGeneralSettingAsync(generalSettings);
+        //    return RedirectToAction(nameof(Index));
+        //}
         public async Task<IActionResult> Edit()
         {
             var selectedDays = Enum.GetValues(typeof(WeekDays))

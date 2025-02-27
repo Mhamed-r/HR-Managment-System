@@ -9,5 +9,6 @@ namespace HR.ManagmentSystem.Services
         Task<IList<PublicHoliday>> GetPublicHoliday();
         Task<PublicHoliday> GetPublicHolidayByIDAsync(int id);
         Task DeletePublicHolidayAsync(int id);
+
     }
 }

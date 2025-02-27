@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using WebApplication1.Data;
 using WebApplication1.Models;
 
@@ -27,6 +28,10 @@ namespace WebApplication1.Services
         public async Task<ApplicationUser> GetEmployeeByIdAsync(string id)
         => await _context.Employees.FindAsync(id);
 
+        public async Task<ApplicationUser> GetEmployeeByNameAsync(string name)
+        {
+           return await _context.Employees.FirstOrDefaultAsync(x => x.UserName == name);
+        }
 
         public async Task<IList<ApplicationUser>> GetEmployeeListAsync()
         => await _context.Employees.Where(E => !E.isDeleted).ToListAsync();
