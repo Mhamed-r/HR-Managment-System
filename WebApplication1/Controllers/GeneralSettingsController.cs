@@ -31,8 +31,8 @@ namespace HR.ManagmentSystem.Controllers
                 .Cast<WeekDays>()
                 .Select(d => new SelectListItem
                 {
-                    Value = ((int)d).ToString(), // Numeric day value
-                    Text = d.ToString()          // Display name
+                    Value = ((int)d).ToString(), 
+                    Text = d.ToString()         
                 })
                 .ToList();
 
