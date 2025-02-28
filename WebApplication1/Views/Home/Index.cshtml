@@ -1,8 +1,51 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Dashboard";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    <h4 class="mt-4">Dashboard</h4>
+    <hr />
+    <div class="container-fluid">
+        <h1 class="mb-5 text-white">Dashboard</h1>
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="metric-card">
+                    <div class="metric-title">
+                        <i class="fa-solid fa-users"></i> Total Employees
+                    </div>
+                <div class="metric-value"> @ViewData["Count"]</div>
+                    <div class="metric-percent-plus">+65%</div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="metric-card">
+                    <div class="metric-title">
+                        <i class="fa-solid fa-calendar-check"></i> Number of leave
+                    </div>
+                <div class="metric-value"> @ViewData["Numberofleave"]</div>
+                    <div class="metric-percent-minus">-24%</div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="metric-card">
+                    <div class="metric-title">
+                        <i class="fa-solid fa-user-plus"></i> New Employees
+                    </div>
+                    <div class="metric-value">@ViewData["NewEmployeeCount"]</div>
+                    <div class="metric-percent-plus">+15%</div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="metric-card">
+                    <div class="metric-title">
+                        <i class="fa-solid fa-building-user"></i> Department
+                    </div>
+                <div class="metric-value">@ViewData["DepartmentCount"]</div>
+                    <div class="metric-percent-plus">+80%</div>
+                </div>
+            </div>
+        </div>
+    </div>

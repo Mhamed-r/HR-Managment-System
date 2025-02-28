@@ -1,0 +1,154 @@
+﻿@model List<WebApplication1.Models.ApplicationUser>
+
+
+@{
+    ViewData["Title"] = "Attendance Registration";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Attendance Registration</h2>
+
+    @if (TempData["Message"] != null)
+    {
+            <div class="alert alert-success text-center">@TempData["Message"]</div>
+    }
+
+    <div class="row">
+
+
+        <div class="col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-header bg-success text-white text-center">
+                    <h4>Check In</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" asp-controller="Attendance" asp-action="CheckIn">
+                       
+                        <div class="mb-3">
+                            <label for="departmentId" class="form-label">Select Department:</label>
+                            <select class="form-control department-select" data-target="#employeeIdCheckIn">
+                                <option value="">-- Select Department --</option>
+                                @if (Model != null && Model.Any())
+                                {
+                                    var departments = Model.Select(e => e.Department).Distinct().ToList();
+                                    foreach (var department in departments)
+                                    {
+                                        if (department != null)
+                                        {
+                                            <option value="@department.ID">@department.Name</option>
+                                        }
+                                    }
+                                }
+                            </select>
+                            </div>
+                        <div class="mb-3">
+                            <select name="employeeId" id="employeeIdCheckIn" class="form-control">
+                                <option value="">-- Select Department First --</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="date" class="form-label">Date:</label>
+                            <input type="date" name="date" class="form-control" required value="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="checkInTime" class="form-label">Check-in Time:</label>
+                            <input type="time" name="checkInTime" class="form-control" required />
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100">✔ Check In</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        @* <!-- Check-in Card --> *@
+ 
+        <div class="col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-header bg-danger text-white text-center">
+                    <h4>Check Out</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" asp-controller="Attendance" asp-action="CheckOut">
+                        <div class="mb-3">
+                            <label for="departmentId" class="form-label">Select Department:</label>
+                            <select class="form-control department-select" data-target="#employeeIdCheckOut">
+                                <option value="">-- Select Department --</option>
+                                @if (Model != null && Model.Any())
+                                {
+                                    var departments = Model.Select(e => e.Department).Distinct().ToList();
+                                    foreach (var department in departments)
+                                    {
+                                        if (department != null)
+                                        {
+                                            <option value="@department.ID">@department.Name</option>
+                                        }
+                                    }
+                                }
+                            </select>
+                         </div> 
+
+                            <div class="mb-3">
+                            <select name="employeeId" id="employeeIdCheckOut" class="form-control">
+                                <option value="">-- Select Department First --</option>
+                            </select>
+                            </div>
+
+                        <div class="mb-3">
+                            <label for="date" class="form-label">Date:</label>
+                            <input type="date" name="date" class="form-control" required value="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="checkOutTime" class="form-label">Check-out Time:</label>
+                            <input type="time" name="checkOutTime" class="form-control" required />
+                        </div>
+
+                        <button type="submit" class="btn btn-danger w-100">🚪 Check Out</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border-radius: 12px;
+    }
+
+    .btn {
+        font-size: 18px;
+        font-weight: bold;
+    }
+</style>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+       $(document).ready(function () {
+        $(".department-select").change(function () {
+            var departmentId = $(this).val();
+            var employeeSelect = $($(this).data("target")); // استهداف القائمة الصحيحة للموظفين
+
+            employeeSelect.html("<option value=''>-- Select Employee --</option>");
+
+            if (departmentId) {
+                $.get(`/Attendance/GetEmployeesByDepartment?departmentId=${departmentId}`, function (data) {
+                    if (data.length === 0) {
+                        console.warn("No employees found for this department.");
+                    }
+                    data.forEach(employee => {
+                        employeeSelect.append(new Option(employee.fullName, employee.id));
+                    });
+                }).fail(function () {
+                    console.error("Error loading employees.");
+                });
+            }
+        });
+    });
+
+
+</script>

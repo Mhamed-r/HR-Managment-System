@@ -1,3 +1,5 @@
+using HR.ManagmentSystem.Mapping;
+using HR.ManagmentSystem.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -21,12 +23,16 @@ namespace WebApplication1
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
             builder.Services.AddRazorPages();
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+            builder.Services.AddScoped<IGeneralSettingsService, GeneralSettingsService>();
+            builder.Services.AddScoped<IpublicHolidays, PublicHolidays>();
             builder.Services.AddScoped<EmployeeService>();
-
+            builder.Services.AddScoped<IPasswordHasher<ApplicationUser>, PasswordHasher<ApplicationUser>>();
+            builder.Services.AddScoped<IAttendanceService, AttendanceService>();
             builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
+            builder.Services.AddAutoMapper(typeof(Mapperconfig));
             builder.Services.AddScoped < IEmailSender, EmailSender>();
             builder.Services.AddControllersWithViews();
             var app = builder.Build();

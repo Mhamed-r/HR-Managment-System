@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication1.Data;
 
@@ -11,9 +12,11 @@ using WebApplication1.Data;
 namespace WebApplication1.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250220135251_AddWeek")]
+    partial class AddWeek
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -250,10 +253,10 @@ namespace WebApplication1.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<TimeOnly?>("TimeIn")
+                    b.Property<TimeOnly>("TimeIn")
                         .HasColumnType("time");
 
-                    b.Property<TimeOnly?>("TimeOut")
+                    b.Property<TimeOnly>("TimeOut")
                         .HasColumnType("time");
 
                     b.HasKey("ID");
@@ -294,10 +297,7 @@ namespace WebApplication1.Data.Migrations
                     b.Property<decimal>("OvertimeRatePerHour")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("WeeklyHolidays1")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WeeklyHolidays2")
+                    b.Property<int>("WeeklyHolidays")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -316,7 +316,7 @@ namespace WebApplication1.Data.Migrations
                     b.Property<DateOnly>("Date")
                         .HasColumnType("date");
 
-                    b.Property<int>("GeneralSettingsId")
+                    b.Property<int?>("GeneralSettingsId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -443,13 +443,9 @@ namespace WebApplication1.Data.Migrations
 
             modelBuilder.Entity("WebApplication1.Models.PublicHoliday", b =>
                 {
-                    b.HasOne("WebApplication1.Models.GeneralSettings", "GeneralSettings")
+                    b.HasOne("WebApplication1.Models.GeneralSettings", null)
                         .WithMany("PublicHolidays")
-                        .HasForeignKey("GeneralSettingsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("GeneralSettings");
+                        .HasForeignKey("GeneralSettingsId");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.ApplicationUser", b =>
