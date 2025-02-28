@@ -105,14 +105,16 @@ namespace HR.ManagmentSystem.Controllers
             return RedirectToAction("Report");
         }
 
-        [HttpDelete]
+        [HttpPost]
         public IActionResult Delete(int id)
         {
             var result = _attendanceService.DeleteAttendance(id);
-            if (result.Contains("✅"))
+
+            if (result.StartsWith("✅"))
             {
                 return Json(new { success = true, message = result });
             }
+
             return Json(new { success = false, message = result });
         }
 

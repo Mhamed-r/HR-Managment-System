@@ -151,18 +151,40 @@ namespace HR.ManagmentSystem.Services
             }
         }
 
-        public string DeleteAttendance(int id)
+   
+         public string DeleteAttendance(int id)
         {
-            var attendance = _context.Attendances.FirstOrDefault(a => a.ID == id);
-            if (attendance == null)
+            try
+
             {
-                return "Record not found!";
+                var attendance = _context.Attendances.FirstOrDefault(a => a.ID == id);
+                if (attendance == null)
+                {
+                    return "❌ Error: Record not found!";
+                }
+
+                _context.Attendances.Remove(attendance);
+                int affectedRows = _context.SaveChanges();
+
+                if (affectedRows > 0)
+                {
+                    return "✅ Record deleted successfully!";
+                }
+                else
+                {
+                    return "❌ Error: No rows were affected!";
+                }
+            }
+            catch (Exception ex)
+            {
+                return "❌ Exception: " + ex.Message;
             }
 
-            _context.Attendances.Remove(attendance);
-            _context.SaveChanges();
 
-            return "Record deleted successfully!";
+
+
+
+
         }
     }
 }
