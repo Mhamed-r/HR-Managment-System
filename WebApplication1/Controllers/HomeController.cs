@@ -30,7 +30,7 @@ namespace WebApplication1.Controllers
             var departmentList = await _departmentService.GetDepartmentListAsync();
             int count = employeeList.Where(e => e.Id != userID).ToList().Count();
             ViewData["Count"] = count;
-            int countleave = employeeList.Where(e => e.Id != userID && e.isDeleted==true).ToList().Count();
+            int countleave = employeeList.Where(e=> e.isDeleted==true).ToList().Count();
             ViewData["Numberofleave"] = countleave;
             int DepartmentCount = departmentList.Count();
             ViewData["DepartmentCount"] = DepartmentCount;

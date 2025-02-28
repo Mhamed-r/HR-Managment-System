@@ -50,10 +50,12 @@
                     {
                         <tr id="row-@item.Id">
                             <td>
-                                <button class="btn btn-sm btn-outline-primary" onclick="editHoliday('@item.Id')">
-                                    <i class="fa-regular fa-pen-to-square"></i> Edit
+                                
+                                <button class="btn btn-outline-info" onclick="editHoliday('@item.Id')">
+                                    <i class="fa-regular fa-pen-to-square"></i>
                                 </button>
-                                <a href="#" onclick="areYouSure('@item.Id')" class="btn btn-danger">Delete</a>
+                              
+                                <a href="#" onclick="areYouSure('@item.Id')" class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i></a>
                             </td>
                             <td id="date-@item.Id">
                                 @item.Date <span>@item.Date.ToString("dddd")</span>

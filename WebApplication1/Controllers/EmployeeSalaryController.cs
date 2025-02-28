@@ -4,6 +4,7 @@ using HR.ManagmentSystem.Services;
 using HR.ManagmentSystem.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration.UserSecrets;
+using WebApplication1.Models;
 using WebApplication1.Services;
 
 namespace HR.ManagmentSystem.Controllers
@@ -19,7 +20,16 @@ namespace HR.ManagmentSystem.Controllers
         private readonly IpublicHolidays _publicHolidaysService = publicHolidaysService;
         private readonly IAttendanceService _attendanceService = attendanceService;
 
-        public async Task<IActionResult> Index(string employeeId, int? month, int? year)
+        public async Task<IActionResult> Index()
+        {
+
+            var Employees =await _employeeService.GetEmployeeListAsync();
+            List<EmployeeSalaryViewModel> EmployeeViewModel = _mapper.Map<List<EmployeeSalaryViewModel>>(Employees);
+
+            return View(EmployeeViewModel);
+        }
+        [HttpGet]
+        public async Task<IActionResult> EmployeeReport(string employeeId, int? month, int? year)
         {
             int selectedYear = year ?? DateTime.Now.Year;
             int selectedMonth = month ?? DateTime.Now.Month;
@@ -55,7 +65,7 @@ namespace HR.ManagmentSystem.Controllers
             decimal TotalSalary = Salary + TotalOverHourSalary - TotalDeductionSalary - AbsantDaySalary;
             //Map to ViewModel
             EmployeeSalaryViewModel salaryViewModel = _mapper.Map<EmployeeSalaryViewModel>(employee);
-            
+
             salaryViewModel.PresentDays = totalPresentDays;
             salaryViewModel.AbsentDays = totalAbsentDays;
             salaryViewModel.OvertimeHours = OverHour;
@@ -64,7 +74,6 @@ namespace HR.ManagmentSystem.Controllers
             salaryViewModel.TotalDeduction = TotalDeductionSalary;
             salaryViewModel.NetSalary = TotalSalary;
 
-           
             return View(salaryViewModel);
         }
     }
