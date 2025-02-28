@@ -63,8 +63,8 @@ namespace HR.ManagmentSystem.Controllers
 
         public IActionResult CheckInOut()
         {
-            var employees = _attendanceService.GetEmployees();
-            return View(employees);
+            var employees = _attendanceService.GetEmployees() ?? new List<ApplicationUser>();
+            return View(employees ?? new List<ApplicationUser>());
         }
 
         [HttpPost]
@@ -117,6 +117,18 @@ namespace HR.ManagmentSystem.Controllers
 
             return Json(new { success = false, message = result });
         }
+
+
+
+
+        [HttpGet]
+        public IActionResult GetEmployeesByDepartment(int departmentId)
+        {
+            var employees = _attendanceService.GetEmployeesByDepartment(departmentId);
+
+            return Json(employees);
+        }
+
 
         public IActionResult ExportToExcel()
         {

@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using WebApplication1.Helpers;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HR.ManagmentSystem.Services
 {
@@ -32,13 +34,19 @@ namespace HR.ManagmentSystem.Services
 
         public List<Attendance> GetAllRecords()
         {
-            return _context.Attendances.ToList();
+            return _context.Attendances
+                .Include(a => a.Employee) 
+                .ThenInclude(e => e.Department)
+                .Where(a => a.Employee != null && a.Employee.isDeleted == false) 
+                .ToList();
         }
 
+      
         public List<ApplicationUser> GetEmployees()
         {
             return _context.Users.OfType<ApplicationUser>().ToList();
         }
+
         public ApplicationUser? GetEmployeeById(string employeeId)
         {
             return _context.Users.OfType<ApplicationUser>().SingleOrDefault(e => e.Id == employeeId.ToString());
@@ -179,12 +187,24 @@ namespace HR.ManagmentSystem.Services
             {
                 return "❌ Exception: " + ex.Message;
             }
+        }
 
+        public List<ApplicationUser> GetEmployeesByDepartment(int departmentId)
+        {
+            return _context.Users.OfType<ApplicationUser>()
+                .Where(e => e.DepartmentID == departmentId && e.isDeleted == false) 
+                .Select(e => new ApplicationUser
+                {
+                    Id = e.Id,
+                    FullName = e.FullName
+                })
+                .ToList();
+        }
 
-
-
-
-
+ 
+        public List<Department> GetAllDepartment()
+        {
+            return _context.Departments.ToList();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿@model List<WebApplication1.Models.ApplicationUser>
 
+
 @{
     ViewData["Title"] = "Attendance Registration";
 }
@@ -13,7 +14,8 @@
     }
 
     <div class="row">
-        <!-- Check-in Card -->
+
+
         <div class="col-md-6">
             <div class="card shadow-lg">
                 <div class="card-header bg-success text-white text-center">
@@ -21,13 +23,27 @@
                 </div>
                 <div class="card-body">
                     <form method="post" asp-controller="Attendance" asp-action="CheckIn">
+                       
                         <div class="mb-3">
-                            <label for="employeeId" class="form-label">Select Employee:</label>
-                            <select name="employeeId" id="employeeId" class="form-control">
-                                @foreach (var employee in Model)
+                            <label for="departmentId" class="form-label">Select Department:</label>
+                            <select class="form-control department-select" data-target="#employeeIdCheckIn">
+                                <option value="">-- Select Department --</option>
+                                @if (Model != null && Model.Any())
                                 {
-                                        <option value="@employee.Id">@employee.FullName - @employee?.Department?.Name</option>
+                                    var departments = Model.Select(e => e.Department).Distinct().ToList();
+                                    foreach (var department in departments)
+                                    {
+                                        if (department != null)
+                                        {
+                                            <option value="@department.ID">@department.Name</option>
+                                        }
+                                    }
                                 }
+                            </select>
+                            </div>
+                        <div class="mb-3">
+                            <select name="employeeId" id="employeeIdCheckIn" class="form-control">
+                                <option value="">-- Select Department First --</option>
                             </select>
                         </div>
 
@@ -46,8 +62,8 @@
                 </div>
             </div>
         </div>
-
-        <!-- Check-out Card -->
+        @* <!-- Check-in Card --> *@
+ 
         <div class="col-md-6">
             <div class="card shadow-lg">
                 <div class="card-header bg-danger text-white text-center">
@@ -56,14 +72,28 @@
                 <div class="card-body">
                     <form method="post" asp-controller="Attendance" asp-action="CheckOut">
                         <div class="mb-3">
-                            <label for="employeeId" class="form-label">Select Employee:</label>
-                            <select name="employeeId" id="employeeId" class="form-control">
-                                @foreach (var employee in Model)
+                            <label for="departmentId" class="form-label">Select Department:</label>
+                            <select class="form-control department-select" data-target="#employeeIdCheckOut">
+                                <option value="">-- Select Department --</option>
+                                @if (Model != null && Model.Any())
                                 {
-                                        <option value="@employee.Id">@employee.FullName - @employee?.Department?.Name</option>
+                                    var departments = Model.Select(e => e.Department).Distinct().ToList();
+                                    foreach (var department in departments)
+                                    {
+                                        if (department != null)
+                                        {
+                                            <option value="@department.ID">@department.Name</option>
+                                        }
+                                    }
                                 }
                             </select>
-                        </div>
+                         </div> 
+
+                            <div class="mb-3">
+                            <select name="employeeId" id="employeeIdCheckOut" class="form-control">
+                                <option value="">-- Select Department First --</option>
+                            </select>
+                            </div>
 
                         <div class="mb-3">
                             <label for="date" class="form-label">Date:</label>
@@ -93,3 +123,32 @@
         font-weight: bold;
     }
 </style>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+       $(document).ready(function () {
+        $(".department-select").change(function () {
+            var departmentId = $(this).val();
+            var employeeSelect = $($(this).data("target")); // استهداف القائمة الصحيحة للموظفين
+
+            employeeSelect.html("<option value=''>-- Select Employee --</option>");
+
+            if (departmentId) {
+                $.get(`/Attendance/GetEmployeesByDepartment?departmentId=${departmentId}`, function (data) {
+                    if (data.length === 0) {
+                        console.warn("No employees found for this department.");
+                    }
+                    data.forEach(employee => {
+                        employeeSelect.append(new Option(employee.fullName, employee.id));
+                    });
+                }).fail(function () {
+                    console.error("Error loading employees.");
+                });
+            }
+        });
+    });
+
+
+</script>

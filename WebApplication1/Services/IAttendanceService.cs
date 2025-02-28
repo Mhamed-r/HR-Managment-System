@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using WebApplication1.Models;
 
@@ -16,5 +17,7 @@ namespace HR.ManagmentSystem.Services
         void UpdateAttendance(Attendance attendance);
         string DeleteAttendance(int id);
         List<Attendance> GetAttendanceForEmployee(string employeeId, int year, int month);
+        List<ApplicationUser> GetEmployeesByDepartment(int departmentId);
+ 
     }
 }
