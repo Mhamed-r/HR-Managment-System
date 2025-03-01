@@ -1,6 +1,5 @@
 ﻿@model List<WebApplication1.Models.ApplicationUser>
 
-
 @{
     ViewData["Title"] = "Attendance Registration";
 }
@@ -10,20 +9,17 @@
 
     @if (TempData["Message"] != null)
     {
-            <div class="alert alert-success text-center">@TempData["Message"]</div>
+        <div class="alert alert-success text-center">@TempData["Message"]</div>
     }
 
     <div class="row">
-
-
         <div class="col-md-6">
             <div class="card shadow-lg">
-                <div class="card-header bg-success text-white text-center">
+                <div class="card-header bg-primary text-white text-center">
                     <h4>Check In</h4>
                 </div>
                 <div class="card-body">
                     <form method="post" asp-controller="Attendance" asp-action="CheckIn">
-                       
                         <div class="mb-3">
                             <label for="departmentId" class="form-label">Select Department:</label>
                             <select class="form-control department-select" data-target="#employeeIdCheckIn">
@@ -40,30 +36,26 @@
                                     }
                                 }
                             </select>
-                            </div>
+                        </div>
                         <div class="mb-3">
                             <select name="employeeId" id="employeeIdCheckIn" class="form-control">
                                 <option value="">-- Select Department First --</option>
                             </select>
                         </div>
-
                         <div class="mb-3">
                             <label for="date" class="form-label">Date:</label>
                             <input type="date" name="date" class="form-control" required value="@DateTime.Today.ToString("yyyy-MM-dd")" />
                         </div>
-
                         <div class="mb-3">
                             <label for="checkInTime" class="form-label">Check-in Time:</label>
                             <input type="time" name="checkInTime" class="form-control" required />
                         </div>
-
-                        <button type="submit" class=" btn-primary   btn  w-100">✔ Check In</button>
+                        <button type="submit" class="btn btn-primary w-100">✔ Check In</button>
                     </form>
                 </div>
             </div>
         </div>
-        @* <!-- Check-in Card --> *@
- 
+
         <div class="col-md-6">
             <div class="card shadow-lg">
                 <div class="card-header bg-danger text-white text-center">
@@ -87,24 +79,20 @@
                                     }
                                 }
                             </select>
-                         </div> 
-
-                            <div class="mb-3">
+                        </div>
+                        <div class="mb-3">
                             <select name="employeeId" id="employeeIdCheckOut" class="form-control">
                                 <option value="">-- Select Department First --</option>
                             </select>
-                            </div>
-
+                        </div>
                         <div class="mb-3">
                             <label for="date" class="form-label">Date:</label>
                             <input type="date" name="date" class="form-control" required value="@DateTime.Today.ToString("yyyy-MM-dd")" />
                         </div>
-
                         <div class="mb-3">
                             <label for="checkOutTime" class="form-label">Check-out Time:</label>
                             <input type="time" name="checkOutTime" class="form-control" required />
                         </div>
-
                         <button type="submit" class="btn btn-danger w-100">🚪 Check Out</button>
                     </form>
                 </div>
@@ -113,21 +101,9 @@
     </div>
 </div>
 
-@* <style> *@
-@*     .card { *@
-@*         border-radius: 12px; *@
-@*     } *@
-
-@*     .btn { *@
-@*         font-size: 18px; *@
-@*         font-weight: bold; *@
-@*     } *@
-@* </style> *@
-
 <style>
     .card {
-        border-radius: 15px;
-        border: none;
+        border-radius: 12px;
         transition: transform 0.3s ease;
     }
 
@@ -136,28 +112,27 @@
         }
 
     .card-header {
-        background: linear-gradient(135deg, #2c3e50, #3498db);
-        border-radius: 15px 15px 0 0;
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        border-radius: 12px 12px 0 0;
     }
 
-    .bg-success .card-header {
-        background: linear-gradient(135deg, #27ae60, #2ecc71);
+    .bg-danger {
+        background: linear-gradient(135deg, #dc3545, #a71d2a) !important;
     }
 
     .btn {
         font-weight: 600;
-        letter-spacing: 0.5px;
         transition: all 0.3s ease;
-        padding: 12px 24px;
+        padding: 12px;
     }
 
     .btn-primary {
-        background: linear-gradient(135deg, #3498db, #2980b9);
+        background: linear-gradient(135deg, #007bff, #0056b3);
         border: none;
     }
 
-    .btn-success {
-        background: linear-gradient(135deg, #2ecc71, #27ae60);
+    .btn-danger {
+        background: linear-gradient(135deg, #dc3545, #a71d2a);
         border: none;
     }
 
@@ -172,33 +147,27 @@
     }
 
     .form-control {
-        border: 2px solid #ecf0f1;
+        border: 2px solid #ced4da;
         border-radius: 8px;
         padding: 10px 15px;
     }
 
         .form-control:focus {
-            border-color: #3498db;
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
         }
 </style>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 <script>
-       $(document).ready(function () {
+    $(document).ready(function () {
         $(".department-select").change(function () {
             var departmentId = $(this).val();
-            var employeeSelect = $($(this).data("target")); // استهداف القائمة الصحيحة للموظفين
-
+            var employeeSelect = $($(this).data("target"));
             employeeSelect.html("<option value=''>-- Select Employee --</option>");
 
             if (departmentId) {
                 $.get(`/Attendance/GetEmployeesByDepartment?departmentId=${departmentId}`, function (data) {
-                    if (data.length === 0) {
-                        console.warn("No employees found for this department.");
-                    }
                     data.forEach(employee => {
                         employeeSelect.append(new Option(employee.fullName, employee.id));
                     });
@@ -208,6 +177,4 @@
             }
         });
     });
-
-
 </script>
