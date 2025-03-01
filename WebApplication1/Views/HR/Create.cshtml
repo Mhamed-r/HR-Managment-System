@@ -3,26 +3,39 @@
     ViewData["Title"] = "Create Department";
 }
 
-    <div class="container">
-        <h3 class="mb-3">User Groups</h3>
-        <div class="button-group">
-            <button class="btn btn-secondary">Private Custom</button>
-            <button class="btn btn-primary">All Permissions</button>
+<div class="container mt-4">
+    <div class="card shadow-lg p-4">
+        <h3 class="text-primary mb-3">Create Department</h3>
+
+        <!-- زرارين لاختيار نوع الصلاحيات -->
+        <div class="d-flex gap-3 mb-4">
+            <button class="btn btn-outline-secondary">
+                <i class="fa-solid fa-user-lock"></i> Private Custom
+            </button>
+            <button class="btn btn-outline-primary">
+                <i class="fa-solid fa-globe"></i> All Permissions
+            </button>
         </div>
-    <form asp-action="Create" method="post" >
-        <div class="d-flex">
-            <div class="w-75">
-                <label class="me-3" asp-for="Name"></label>
-                <input type="text" class="form-control" asp-for="Name">
+
+        <form asp-action="Create" method="post">
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label fw-bold">Department Name</label>
+                <input type="text" class="form-control" asp-for="Name" placeholder="Enter department name">
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="mt-4 ms-3">
-                <button type="submit" class="btn btn-primary">Submit</button>
+            <div class="d-flex gap-3 justify-content-end">
+                <button type="submit" class="btn btn-success">
+                    <i class="fa-solid fa-check"></i> Create Department
+                </button>
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    <i class="fa-solid fa-arrow-left"></i> Cancel
+                </a>
             </div>
-        </div>
-    </form>
+        </form>
 
-        <table class="table table-bordered mt-3 text-center ">
+        <!-- جدول الصلاحيات -->
+        <h4 class="mt-4 text-secondary">Permissions</h4>
+        <table class="table table-bordered mt-3 text-center">
             <thead class="table-light">
                 <tr>
                     <th>Page</th>
@@ -35,32 +48,33 @@
             <tbody>
                 <tr>
                     <td>Employees</td>
-                    <td><input type="checkbox"></td>
-                    <td><input type="checkbox"></td>
-                    <td><input type="checkbox"></td>
-                    <td><input type="checkbox"></td>
+                    <td><input type="checkbox" class="form-check-input"></td>
+                    <td><input type="checkbox" class="form-check-input"></td>
+                    <td><input type="checkbox" class="form-check-input"></td>
+                    <td><input type="checkbox" class="form-check-input"></td>
                 </tr>
                 <tr>
                     <td>General Settings</td>
-                    <td><input type="checkbox"></td>
-                    <td><input type="checkbox"></td>
-                    <td><input type="checkbox"></td>
-                    <td><input type="checkbox"></td>
+                    <td><input type="checkbox" class="form-check-input"></td>
+                    <td><input type="checkbox" class="form-check-input"></td>
+                    <td><input type="checkbox" class="form-check-input"></td>
+                    <td><input type="checkbox" class="form-check-input"></td>
                 </tr>
                 <tr>
                     <td>Attendance & Departure</td>
-                    <td><input type="checkbox"></td>
-                    <td><input type="checkbox"></td>
-                    <td><input type="checkbox"></td>
-                    <td><input type="checkbox"></td>
+                    <td><input type="checkbox" class="form-check-input"></td>
+                    <td><input type="checkbox" class="form-check-input"></td>
+                    <td><input type="checkbox" class="form-check-input"></td>
+                    <td><input type="checkbox" class="form-check-input"></td>
                 </tr>
                 <tr>
                     <td>Salary Report</td>
-                    <td><input type="checkbox"></td>
-                    <td><input type="checkbox"></td>
-                    <td><input type="checkbox"></td>
-                    <td><input type="checkbox"></td>
+                    <td><input type="checkbox" class="form-check-input"></td>
+                    <td><input type="checkbox" class="form-check-input"></td>
+                    <td><input type="checkbox" class="form-check-input"></td>
+                    <td><input type="checkbox" class="form-check-input"></td>
                 </tr>
             </tbody>
         </table>
     </div>
+</div>
