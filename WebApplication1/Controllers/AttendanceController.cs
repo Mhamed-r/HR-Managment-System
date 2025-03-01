@@ -12,9 +12,11 @@ using HR.ManagmentSystem.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Models;
 using static System.Net.Mime.MediaTypeNames;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HR.ManagmentSystem.Controllers
 {
+    [Authorize]
     public class AttendanceController : Controller
     {
         private readonly IAttendanceService _attendanceService;

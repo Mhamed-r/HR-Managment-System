@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Security.Claims;
 using WebApplication1.Models;
@@ -6,6 +7,7 @@ using WebApplication1.Services;
 
 namespace WebApplication1.Controllers
 {
+    [Authorize]
     public class EmployeeController(EmployeeService _employeeService , IDepartmentService _departmentService) : Controller
     {
        private readonly EmployeeService _employeeService= _employeeService;

@@ -1,4 +1,5 @@
 ﻿using HR.ManagmentSystem.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -6,6 +7,7 @@ using WebApplication1.Models;
 
 namespace HR.ManagmentSystem.Controllers
 {
+    [Authorize]
     public class OfficialHolidaysController(IpublicHolidays _IpublicHolidays) : Controller
     {
         private readonly IpublicHolidays _IpublicHolidays = _IpublicHolidays;

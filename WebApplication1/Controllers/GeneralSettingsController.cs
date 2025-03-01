@@ -1,4 +1,5 @@
 ﻿using HR.ManagmentSystem.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WebApplication1.Helpers;
@@ -6,6 +7,7 @@ using WebApplication1.Models;
 
 namespace HR.ManagmentSystem.Controllers
 {
+    [Authorize]
     public class GeneralSettingsController(IGeneralSettingsService generalSettingsService) : Controller
     {
         private readonly IGeneralSettingsService _generalSettingsService = generalSettingsService;
