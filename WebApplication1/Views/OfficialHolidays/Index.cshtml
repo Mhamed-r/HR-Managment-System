@@ -141,10 +141,10 @@
                 }).then(() => {
                     var newRow = `<tr >
                         <td>
-                           <button class="btn btn-sm btn-outline-primary" onclick="editHoliday('${response.id}')">
-                                    <i class="fa-regular fa-pen-to-square"></i> Edit
+                           <button class="btn btn-outline-info" onclick="editHoliday('${response.id}')">
+                                    <i class="fa-regular fa-pen-to-square"></i> 
                                 </button>
-                            <a href="#" onclick="areYouSure('${response.id}')" class="btn btn-danger">Delete</a>
+                            <a href="#" onclick="areYouSure('${response.id}')" class="btn btn-outline-danger"> <i class="fa-solid fa-trash"></i> </a>
                         </td>
                         <td>
                             ${response.date} <span>${new Date(response.date).toLocaleString('en-US', { weekday: 'long' })}</span>

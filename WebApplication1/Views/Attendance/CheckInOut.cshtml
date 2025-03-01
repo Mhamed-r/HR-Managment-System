@@ -57,7 +57,7 @@
                             <input type="time" name="checkInTime" class="form-control" required />
                         </div>
 
-                        <button type="submit" class="btn btn-success w-100">✔ Check In</button>
+                        <button type="submit" class=" btn-primary   btn  w-100">✔ Check In</button>
                     </form>
                 </div>
             </div>
@@ -113,18 +113,77 @@
     </div>
 </div>
 
+@* <style> *@
+@*     .card { *@
+@*         border-radius: 12px; *@
+@*     } *@
+
+@*     .btn { *@
+@*         font-size: 18px; *@
+@*         font-weight: bold; *@
+@*     } *@
+@* </style> *@
+
 <style>
     .card {
-        border-radius: 12px;
+        border-radius: 15px;
+        border: none;
+        transition: transform 0.3s ease;
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+    .card-header {
+        background: linear-gradient(135deg, #2c3e50, #3498db);
+        border-radius: 15px 15px 0 0;
+    }
+
+    .bg-success .card-header {
+        background: linear-gradient(135deg, #27ae60, #2ecc71);
     }
 
     .btn {
-        font-size: 18px;
-        font-weight: bold;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        padding: 12px 24px;
     }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #3498db, #2980b9);
+        border: none;
+    }
+
+    .btn-success {
+        background: linear-gradient(135deg, #2ecc71, #27ae60);
+        border: none;
+    }
+
+    .btn:hover {
+        filter: brightness(90%);
+        transform: translateY(-2px);
+    }
+
+    .form-label {
+        font-weight: 500;
+        color: #2c3e50;
+    }
+
+    .form-control {
+        border: 2px solid #ecf0f1;
+        border-radius: 8px;
+        padding: 10px 15px;
+    }
+
+        .form-control:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
 </style>
 
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
