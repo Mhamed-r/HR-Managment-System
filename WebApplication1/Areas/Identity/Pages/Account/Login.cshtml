@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Log in";
+    Layout = null;
 }
 
 <!DOCTYPE html>
@@ -15,7 +16,7 @@
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <style>
         body {
-            background: linear-gradient(to right, #6a11cb, #2575fc);
+            background: linear-gradient(to right,#b8b9bc, #0759b2);
             height: 100vh;
             display: flex;
             align-items: center;
@@ -50,9 +51,9 @@
         }
 
         .form-floating input {
-            width: 100% !important; /* جعل عرض الإدخال يأخذ المساحة الكاملة */
-            height: 50px; /* زيادة الارتفاع */
-            font-size: 1.1rem; /* تحسين وضوح النص */
+            width: 100% !important; 
+            height: 50px;
+            font-size: 1.1rem; 
         }
 
 
@@ -98,7 +99,6 @@
 
             <div class="text-center links mt-3">
                 <p><a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a></p>
-                <p><a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a></p>
                 <p><a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a></p>
             </div>
         </form>
