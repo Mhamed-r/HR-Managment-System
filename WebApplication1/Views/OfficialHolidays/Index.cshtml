@@ -1,20 +1,6 @@
 ﻿@model List<PublicHoliday>
 
 
-<style>
-    .border {
-        border: 1px solid #ddd;
-        border-radius: 5px;
-    }
-
-    .form-label {
-        font-weight: bold;
-    }
-
-    .btn {
-        margin: 5px;
-    }
-</style>
 @Html.AntiForgeryToken()
 
     <div class="container mt-4 bg-light">
@@ -98,6 +84,103 @@
     </div>
 </div>
 
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .container {
+        background-color: #ffffff;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card {
+        border: none;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+        background-color: #007bff;
+        color: white;
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+
+    .form-label {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .form-control {
+        border-radius: 8px;
+        border: 1px solid #ced4da;
+        transition: all 0.3s ease-in-out;
+    }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+    .btn {
+        border-radius: 8px;
+        font-weight: bold;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+
+        .btn-success:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+
+    .btn-outline-info {
+        color: #17a2b8;
+        border-color: #17a2b8;
+    }
+
+        .btn-outline-info:hover {
+            background-color: #17a2b8;
+            color: white;
+        }
+
+    .btn-outline-danger {
+        color: #dc3545;
+        border-color: #dc3545;
+    }
+
+        .btn-outline-danger:hover {
+            background-color: #dc3545;
+            color: white;
+        }
+
+    .table {
+        margin-top: 20px;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+        .table th {
+            background-color: #343a40;
+            color: white;
+            text-transform: uppercase;
+        }
+
+    .modal-header {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .modal-footer {
+        background-color: #f8f9fa;
+    }
+</style>
 
 
 

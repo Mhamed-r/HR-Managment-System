@@ -2,12 +2,13 @@
 @{
     ViewData["Title"] = "Show Employees";
 }
-<a class="btn btn-outline-primary" asp-action="Create">Create Employee</a>
+
+<a class="btn btn-primary" asp-action="Create">Create Employee</a>
 <table class="table table-bordered text-center mt-3">
-    <thead>
+    <thead class="table-dark">
         <tr>
-            <td>Name</td>
-            <td>Actions</td>
+            <th>Name</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -16,19 +17,18 @@
             <tr>
                 <td>@item.FullName</td>
                 <td>
-                    <a href="/Employee/Edit/@item.Id" class="btn btn-outline-info"><i class="fa-regular fa-square-check"></i></a>
-                  
-
+                    <a href="/Employee/Edit/@item.Id" class="btn btn-info me-2"><i class="fa-regular fa-square-check"></i></a>
+                    <button onclick="areYouSure('@item.Id')" class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
     function areYouSure(id) {
-        
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -45,7 +45,7 @@
                     success: function() {
                         Swal.fire({
                             title: "Deleted!",
-                            text: "Your file has been deleted.",
+                            text: "Employee has been deleted.",
                             icon: "success"
                         }).then(() => {
                             location.reload();
@@ -55,7 +55,7 @@
                         console.error("AJAX request failed:", status, error);
                         Swal.fire({
                             title: "Error!",
-                            text: "There was an error deleting your file.",
+                            text: "There was an error deleting the employee.",
                             icon: "error"
                         });
                     }
@@ -64,4 +64,3 @@
         });
     }
 </script>
-

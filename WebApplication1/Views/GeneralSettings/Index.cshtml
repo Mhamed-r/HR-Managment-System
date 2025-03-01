@@ -19,29 +19,31 @@
     <title>General Settings</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-light">
     <form asp-action="Edit" method="post">
-        <div class="container mt-4">
-            <div class="card">
-                <div class="card-header text-center fw-bold">General Settings</div>
-                <div class="card-body">
+        <div class="container mt-5">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white text-center fw-bold">
+                    General Settings
+                </div>
+                <div class="card-body bg-white">
                     <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label">Addition</label>
+                        <label class="col-sm-2 col-form-label fw-bold">Addition</label>
                         <div class="col-sm-10">
-                            <input asp-for="OvertimeRatePerHour" type="text" class="form-control">
+                            <input asp-for="OvertimeRatePerHour" type="text" class="form-control border-primary">
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label">Deduction</label>
+                        <label class="col-sm-2 col-form-label fw-bold">Deduction</label>
                         <div class="col-sm-10">
-                            <input asp-for="DeductionRatePerHour" type="text" class="form-control">
+                            <input asp-for="DeductionRatePerHour" type="text" class="form-control border-danger">
                         </div>
                     </div>
-                    <h5 class="text-center mb-3">Weekly Holidays</h5>
+                    <h5 class="text-center mb-3 text-dark">Weekly Holidays</h5>
                     <div class="row mb-3">
-                        <label class="col-sm-3 col-form-label">Official Holiday 1</label>
+                        <label class="col-sm-3 col-form-label fw-bold">Official Holiday 1</label>
                         <div class="col-sm-9">
-                            <select asp-for="WeeklyHolidays1" class="form-select">
+                            <select asp-for="WeeklyHolidays1" class="form-select border-info">
                                 <option selected value="5">Friday</option>
                                 <option value="6">Saturday</option>
                                 <option value="0">Sunday</option>
@@ -53,9 +55,9 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label class="col-sm-3 col-form-label">Official Holiday 2</label>
+                        <label class="col-sm-3 col-form-label fw-bold">Official Holiday 2</label>
                         <div class="col-sm-9">
-                            <select asp-for="WeeklyHolidays2" class="form-select">
+                            <select asp-for="WeeklyHolidays2" class="form-select border-info">
                                 <option selected value="6">Saturday</option>
                                 <option value="5">Friday</option>
                                 <option value="0">Sunday</option>
@@ -66,9 +68,21 @@
                             </select>
                         </div>
                     </div>
-                    <div class="text-center">
-                        <button class="btn btn-primary">Save</button>
-                        @* <a href="/generalsettings/edit" class="btn btn-secondary">Edit</a> *@
+                    @* <div class="text-center"> *@
+                    @*     <button class="btn btn-success px-4 w-20">Save</button> *@
+                    @*     <a href="javascript:history.back()" class="btn btn-outline-secondary px-4 w-20">Back</a> *@
+                   
+                    
+                    
+                    @* </div> *@
+
+                    <div class="d-flex justify-content-end gap-2">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save me-2"></i> Save
+                        </button>
+                        <a href="javascript:history.back()" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-2"></i> Back
+                        </a>
                     </div>
                 </div>
             </div>
